@@ -45,7 +45,13 @@ jobs:
         ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
           echo "Stopping existing process..."
           pkill -f 'java -jar' || echo "No existing process found."
-          echo "Starting application with nohup..."
-          nohup java -jar /home/ubuntu/todo-app/*.jar > /home/ubuntu/todo-app/log.txt 2>&1 < /dev/null &
+
+          echo "Starting application in background..."
+          cd /home/ubuntu/todo-app
+          setsid java -jar *.jar > log.txt 2>&1 &
           echo "Application started."
+
+          # Optional: Check the last few lines of the log
+          sleep 3
+          tail -n 20 log.txt
         EOF
