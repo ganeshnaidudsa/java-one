@@ -42,4 +42,6 @@ jobs:
         port: 22
         script: |
           pkill -f 'java -jar' || true
-          nohup java -jar /home/ubuntu/todo-app/*.jar > log.txt 2>&1 &
+          nohup java -jar /home/ubuntu/todo-app/*.jar > /home/ubuntu/todo-app/log.txt 2>&1 < /dev/null &
+          disown
+
