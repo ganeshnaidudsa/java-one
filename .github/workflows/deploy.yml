@@ -46,12 +46,9 @@ jobs:
           echo "Stopping existing process..."
           pkill -f 'java -jar' || echo "No existing process found."
 
-          echo "Starting application in background..."
+          echo "Starting app in a tmux session..."
           cd /home/ubuntu/todo-app
-          setsid java -jar *.jar > log.txt 2>&1 &
-          echo "Application started."
-
-          # Optional: Check the last few lines of the log
-          sleep 3
-          tail -n 20 log.txt
+          tmux new-session -d -s todoapp "java -jar *.jar > log.txt 2>&1"
+          echo "Started in tmux session: todoapp"
         EOF
+
