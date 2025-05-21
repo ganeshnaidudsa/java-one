@@ -41,7 +41,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          pkill -f 'java -jar' || true
+          echo "Stopping existing process..."
+          pkill -f 'java -jar' || echo "No existing process found."
+
+          echo "Starting application with nohup..."
           nohup java -jar /home/ubuntu/todo-app/*.jar > /home/ubuntu/todo-app/log.txt 2>&1 < /dev/null &
-          disown
+          echo "Application started."
 
